@@ -225,7 +225,7 @@
         
         <div class="input-group">
             <label for="phone-number">Family Access Number</label>
-            <input type="tel" id="phone-number" class="input-field" placeholder="Enter 10-digit number" autocomplete="off">
+            <input type="tel" id="phone-number" class="input-field" placeholder="Enter numbers to bypass..." autocomplete="off">
         </div>
 
         <button class="btn-action" onclick="unlockDashboard()">Initialize Entry Link</button>
@@ -268,23 +268,23 @@
 
     <script>
         function unlockDashboard() {
-            const phoneInput = document.getElementById('phone-number');
             const feedback = document.getElementById('gate-message');
-            const rawNumbers = phoneInput.value.replace(/\D/g, '');
-
-            if (rawNumbers.length < 10) {
-                feedback.style.color = '#ff5964';
-                feedback.innerText = "Please enter a valid 10-digit access number.";
-                feedback.style.display = "block";
-                return;
-            }
-
+            
             feedback.style.color = '#04d361';
             feedback.innerText = "Access granted! Syncing telemetry channels...";
             feedback.style.display = "block";
 
             setTimeout(() => {
-                // Instantly reconfigure structural canvas alignments
                 document.body.style.display = 'block';
                 document.body.style.paddingTop = '3rem';
                 
+                document.getElementById('gate-screen').style.display = 'none';
+                document.getElementById('dashboard-screen').style.display = 'block';
+                
+                setInterval(simulateTraffic, 3000);
+                
+                const streamInput = document.getElementById('stream-message');
+                if (streamInput) {
+                    streamInput.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+
