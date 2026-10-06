@@ -26,93 +26,12 @@
             background-color: var(--bg-space);
             color: var(--text-light);
             min-height: 100vh;
-            padding: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* GATE SCREEN (LOGIN OVERLAY) */
-        #gate-screen {
-            width: 100%;
-            max-width: 520px;
-            text-align: center;
-            background-color: var(--bubble-bg);
-            border: var(--bubble-border);
-            border-radius: 12px;
-            padding: 2.5rem;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-        }
-        .logo-mark {
-            width: 16px;
-            height: 16px;
-            background: var(--gold-star);
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 15px var(--gold-star);
-            margin-bottom: 2rem;
-        }
-        h1 {
-            font-size: 2.2rem;
-            color: #ffffff;
-            letter-spacing: -0.5px;
-            margin-bottom: 0.5rem;
-        }
-        .gate-subtitle {
-            color: var(--text-dim);
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-        .input-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-        .input-group label {
+            padding: 3rem 1.5rem 1.5rem 1.5rem;
             display: block;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        .input-field {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid #29292e;
-            padding: 1rem 1.2rem;
-            border-radius: 8px;
-            color: white;
-            font-size: 1.1rem;
-            outline: none;
-        }
-        .input-field:focus {
-            border-color: var(--gold-star);
-        }
-        .btn-action {
-            width: 100%;
-            background: var(--gold-star);
-            color: #110a1c;
-            border: none;
-            padding: 1rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-action:hover {
-            background: #e5c144;
-        }
-        #gate-message {
-            margin-top: 1rem;
-            font-size: 0.95rem;
-            display: none;
         }
 
-        /* MAIN DASHBOARD SCREEN */
+        /* MAIN DASHBOARD CONTAINER */
         #dashboard-screen {
-            display: none;
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
@@ -146,7 +65,7 @@
             float: right;
         }
 
-        /* TRANSMISSION LOG FEED */
+        /* TRANSMISSION LOG FEED COMPONENTS */
         .transmission-box {
             display: flex;
             gap: 0.5rem;
@@ -217,25 +136,10 @@
 </head>
 <body>
 
-    <!-- GATE LOG-IN GATEWAY -->
-    <div id="gate-screen">
-        <div class="logo-mark"></div>
-        <h1>Olihaven</h1>
-        <p class="gate-subtitle">Sovereign Interplanetary Cryptographic Keyway</p>
-        
-        <div class="input-group">
-            <label for="phone-number">Family Access Number</label>
-            <input type="tel" id="phone-number" class="input-field" placeholder="Enter numbers to bypass..." autocomplete="off">
-        </div>
-
-        <button class="btn-action" onclick="unlockDashboard()">Initialize Entry Link</button>
-        <div id="gate-message"></div>
-    </div>
-
-    <!-- MAIN PLATFORM INTERFACE -->
+    <!-- MAIN DASHBOARD SCREEN (Gate bypassed entirely) -->
     <div id="dashboard-screen">
         <div class="dashboard-grid">
-            <!-- PILLAR 1: THE HEARTH -->
+            <!-- PILLAR 1: THE HEARTH WITH LIVE LOG PIPELINES -->
             <div class="bubble-panel">
                 <h2 class="pillar-title">The Hearth <span class="metric-badge" id="user-count">1,402 Links</span></h2>
                 <p style="font-size: 0.95rem; color: var(--text-dim);">Real-time sync networks connected. Core modules running safely over active sub-light infrastructure links.</p>
@@ -267,24 +171,58 @@
     </div>
 
     <script>
-        function unlockDashboard() {
-            const feedback = document.getElementById('gate-message');
+        // Start simulation immediately on page mount
+        setInterval(simulateTraffic, 3000);
+        
+        // Track manual Enter key hits natively inside input bounding boxes
+        window.addEventListener('DOMContentLoaded', () => {
+            const streamInput = document.getElementById('stream-message');
+            if (streamInput) {
+                streamInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        transmitStream();
+                    }
+                });
+            }
+        });
+
+        function simulateTraffic() {
+            const userEl = document.getElementById('user-count');
+            if(!userEl) return;
+            let currentUsers = parseInt(userEl.innerText.replace(/,/g, ''));
+            currentUsers += Math.floor(Math.random() * 5) - 2;
+            userEl.innerText = currentUsers.toLocaleString() + " Links";
+        }
+
+        function transmitStream() {
+            const messageInput = document.getElementById('stream-message');
+            const logContainer = document.getElementById('stream-log');
             
-            feedback.style.color = '#04d361';
-            feedback.innerText = "Access granted! Syncing telemetry channels...";
-            feedback.style.display = "block";
+            if (!messageInput || !logContainer) return;
+            const text = messageInput.value.trim();
 
-            setTimeout(() => {
-                document.body.style.display = 'block';
-                document.body.style.paddingTop = '3rem';
-                
-                document.getElementById('gate-screen').style.display = 'none';
-                document.getElementById('dashboard-screen').style.display = 'block';
-                
-                setInterval(simulateTraffic, 3000);
-                
-                const streamInput = document.getElementById('stream-message');
-                if (streamInput) {
-                    streamInput.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter') {
+            if (text === '') return;
 
+            const timestamp = new Date().toLocaleTimeString();
+            const fakeLatency = (Math.random() * 4.5 + 1.2).toFixed(2);
+            
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `
+                <div class="log-meta">[${timestamp}] // LATENCY: ${fakeLatency}s</div>
+                <div class="log-text">${escapeHtml(text)}</div>
+            `;
+
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            
+            messageInput.value = '';
+        }
+
+        function escapeHtml(string) {
+            return string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+    </script>
+</body>
+</html>
