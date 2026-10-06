@@ -76,14 +76,12 @@
         .tag-info { color: #3a86ff; font-weight: bold; }
         .tag-success { color: #04d361; font-weight: bold; }
         
-        /* TWO-BUTTON FLEX LAYOUT MODULE */
         .action-flex-row {
             display: flex;
             gap: 0.75rem;
             width: 100%;
             margin-bottom: 0.75rem;
         }
-
         .link-btn {
             display: flex;
             justify-content: center;
@@ -127,7 +125,6 @@
             <div class="status-badge">Online</div>
         </div>
 
-        <!-- SCROLLABLE TERMINAL LOG READER WITH DYNAMIC TIMESTAMPS -->
         <div class="terminal-box" id="log-screen">
             <div class="log-entry">
                 <span class="timestamp running-time">[00:00:00]</span><span class="tag-success">SUCCESS</span> Node link established safely.
@@ -143,15 +140,12 @@
             </div>
         </div>
 
-        <!-- TWO-BUTTON INTERACTIVE UTILITY BAR -->
         <div class="action-flex-row">
-            <!-- NEW DIRECT CLICK-TO-CALL HOTKEY MODULE -->
             <a href="tel:+16367232298" class="link-btn btn-primary">
                 Press here to call 6367232298 📞
             </a>
         </div>
 
-        <!-- RETURN BACK TO ACCESS INTERFACE -->
         <a href="index.html" class="link-btn btn-secondary">
             ← Return to Node Gate
         </a>
@@ -163,15 +157,12 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            
             const timeString = `[${hours}:${minutes}:${seconds}]`;
-            
             const elements = document.getElementsByClassName('running-time');
             for (let i = 0; i < elements.length; i++) {
                 elements[i].textContent = timeString;
             }
         }
-
         window.addEventListener('DOMContentLoaded', () => {
             updateTimestamps();
             setInterval(updateTimestamps, 1000);
