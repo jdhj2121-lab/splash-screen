@@ -32,7 +32,7 @@
             align-items: center;
         }
 
-        /* GATE SCREEN (LOGIN OVERLAY) */
+        /* GATE SCREEN (LOGIN OVERLAY Layered Standalone) */
         #gate-screen {
             width: 100%;
             max-width: 520px;
@@ -110,16 +110,18 @@
             display: none;
         }
 
-        /* MAIN DASHBOARD SCREEN */
+        /* MAIN DASHBOARD SCREEN (Now un-nested from center flex block parameters) */
         #dashboard-screen {
             display: none;
             width: 100%;
             max-width: 1200px;
+            margin: 0 auto;
         }
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
+            align-items: start;
         }
         .bubble-panel {
             background: var(--bubble-bg);
@@ -144,18 +146,18 @@
             float: right;
         }
 
-        /* TRANSMISSION LOG INTERFACE (THE HEARTH EXCLUSIVES) */
+        /* TRANSMISSION LOG FEED COMPONENTS */
         .transmission-box {
             display: flex;
             gap: 0.5rem;
-            margin-top: 1rem;
+            margin-top: 1.2rem;
             margin-bottom: 1rem;
         }
         .feed-input {
             flex-grow: 1;
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid #29292e;
-            padding: 0.6rem 0.8rem;
+            padding: 0.7rem 0.9rem;
             border-radius: 6px;
             color: white;
             font-size: 0.9rem;
@@ -168,52 +170,54 @@
             background: var(--gold-star);
             color: #110a1c;
             border: none;
-            padding: 0 1rem;
+            padding: 0 1.2rem;
             border-radius: 6px;
             font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
+            transition: background 0.1s;
         }
         .btn-send:hover {
             background: #e5c144;
         }
         .log-container {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.25);
             border: 1px solid #29292e;
             border-radius: 8px;
             padding: 0.8rem;
-            height: 150px;
+            height: 160px;
             overflow-y: auto;
             font-family: monospace;
             font-size: 0.8rem;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
         .log-entry {
             border-left: 2px solid var(--gold-star);
-            padding-left: 0.5rem;
-            animation: fadeInLog 0.3s ease-out;
+            padding-left: 0.6rem;
+            animation: fadeInLog 0.25s ease-out;
         }
         .log-meta {
             color: var(--text-dim);
-            font-size: 0.7rem;
-            margin-bottom: 0.1rem;
+            font-size: 0.72rem;
+            margin-bottom: 0.15rem;
         }
         .log-text {
             color: var(--text-light);
             word-break: break-all;
+            line-height: 1.4;
         }
 
         @keyframes fadeInLog {
-            from { opacity: 0; transform: translateX(-5px); }
+            from { opacity: 0; transform: translateX(-4px); }
             to { opacity: 1; transform: translateX(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- GATE LOG-IN GATEWAY -->
+    <!-- GATE LOG-IN GATEWAY LAYER -->
     <div id="gate-screen">
         <div class="logo-mark"></div>
         <h1>Olihaven</h1>
@@ -228,17 +232,16 @@
         <div id="gate-message"></div>
     </div>
 
-    <!-- MAIN PLATFORM INTERFACE -->
+    <!-- MAIN PLATFORM INTERFACE LAYER -->
     <div id="dashboard-screen">
         <div class="dashboard-grid">
-            <!-- PILLAR 1: THE HEARTH -->
+            <!-- PILLAR 1: THE HEARTH WITH LIVE LOG PIPELINES -->
             <div class="bubble-panel">
                 <h2 class="pillar-title">The Hearth <span class="metric-badge" id="user-count">1,402 Links</span></h2>
                 <p style="font-size: 0.95rem; color: var(--text-dim);">Real-time sync networks connected. Core modules running safely over active sub-light infrastructure links.</p>
                 
-                <!-- NEW INTERACTIVE TRANSMISSION LOG MODULE -->
                 <div class="transmission-box">
-                    <input type="text" id="stream-message" class="feed-input" placeholder="Type encryption data stream..." autocomplete="off">
+                    <input type="text" id="stream-message" class="feed-input" placeholder="Type transmission payload..." autocomplete="off">
                     <button class="btn-send" onclick="transmitStream()">Transmit</button>
                 </div>
                 <div class="log-container" id="stream-log">
@@ -267,7 +270,6 @@
         function unlockDashboard() {
             const phoneInput = document.getElementById('phone-number');
             const feedback = document.getElementById('gate-message');
-
             const rawNumbers = phoneInput.value.replace(/\D/g, '');
 
             if (rawNumbers.length < 10) {
@@ -282,9 +284,4 @@
             feedback.style.display = "block";
 
             setTimeout(() => {
-                document.getElementById('gate-screen').style.display = 'none';
-                document.getElementById('dashboard-screen').style.display = 'block';
-                document.body.style.alignItems = 'flex-start';
-                setInterval(simulateTraffic, 3000);
-                
-
+                // Clear out body flex centering properties to make space for the grid rows smoothly
