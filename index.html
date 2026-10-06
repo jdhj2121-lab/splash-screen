@@ -5,8 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Splash_screen</title>
     <link rel="icon" type="image/x-icon" href="./favicon-2.ico">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    HELLO UNIVERSE 1
+
+    <div class="login-container">
+        <h2>Enter Passcode</h2>
+        <input type="password" id="passcode" placeholder="Enter 6-digit code">
+        <button onclick="checkCode()">Submit</button>
+        <p id="error-message" style="color: red; display: none;">Incorrect passcode. Try again.</p>
+    </div>
+
+    <script>
+        function checkCode() {
+            const input = document.getElementById('passcode').value;
+            // The required passcode
+            const correctCode = "127312"; 
+            
+            if (input === correctCode) {
+                // Redirects to your main website file
+                window.location.href = "main.html"; 
+            } else {
+                document.getElementById('error-message').style.display = "block";
+            }
+        }
+    </script>
+
 </body>
 </html>
