@@ -6,29 +6,159 @@
     <title>Olihaven</title>
     <link rel="icon" type="image/x-icon" href="./favicon-2.ico">
     <link rel="stylesheet" href="./style.css">
+    <style>
+        /* Fallback styling framework to keep elements neatly structured */
+        body {
+            background-color: #121214;
+            color: #e1e1e6;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #202024;
+            border: 1px solid #29292e;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+        }
+        input[type="password"] {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid #29292e;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            text-align: center;
+            margin-bottom: 1.2rem;
+        }
+        input[type="password"]:focus {
+            border-color: #f4d35e;
+        }
+        button, .link-btn {
+            display: block;
+            width: 100%;
+            background: #f4d35e;
+            color: #110a1c;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.1s;
+        }
+        button:hover, .link-btn:hover {
+            background: #e5c144;
+        }
+        .link-btn:active {
+            transform: scale(0.98);
+        }
+        #error-message {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* Success blueprint reveal view styles */
+        .spec-details {
+            text-align: left;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid #29292e;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #29292e;
+            padding: 0.3rem 0;
+        }
+        .spec-item:last-child { border-bottom: none; }
+        .spec-label { color: #7c7c8a; font-weight: 500; }
+        .spec-value { color: #ffffff; font-weight: 600; }
+    </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <h2>Enter Passcode</h2>
-        <input type="password" id="passcode" placeholder="Enter 6-digit code">
-        <button onclick="checkCode()">Submit</button>
-        <p id="error-message" style="color: red; display: none;">Incorrect passcode. Try again.</p>
+    <div class="login-container" id="gate-card">
+        <!-- WRAPPER: INITIAL SECURITY LOGIN VIEW -->
+        <div id="auth-view">
+            <h2>Enter Passcode</h2>
+            <input type="password" id="passcode" placeholder="Enter 6-digit code" maxlength="6" autocomplete="off">
+            <button onclick="checkCode()">Submit</button>
+            <p id="error-message" style="color: #ff5964; display: none;">Incorrect passcode. Try again.</p>
+        </div>
+
+        <!-- WRAPPER: REVEALED HYPERCAR CONNECTION DECK -->
+        <div id="link-view" style="display: none;">
+            <h2 style="color: #f4d35e;">Telemetry Unlocked</h2>
+            <p style="color: #7c7c8a; font-size: 0.95rem; margin-bottom: 1rem;">Ferrari F80 Holo-Blueprint Active</p>
+            
+            <div class="spec-details">
+                <div class="spec-item"><span class="spec-label">Model:</span><span class="spec-value">Ferrari F80 Hybrid</span></div>
+                <div class="spec-item"><span class="spec-label">Output:</span><span class="spec-value">1,184 HP V6-Hybrid</span></div>
+                <div class="spec-item"><span class="spec-label">Body:</span><span class="spec-value">Blu Elettrico 2020</span></div>
+                <div class="spec-item"><span class="spec-label">Livery:</span><span class="spec-value">Argento Nurburgring</span></div>
+            </div>
+
+            <a class="link-btn" href="https://ferrari.com" target="_blank" rel="noopener noreferrer">
+                Launch Maranello Configurator ↗
+            </a>
+        </div>
     </div>
 
     <script>
         function checkCode() {
             const input = document.getElementById('passcode').value;
-            // The required passcode
             const correctCode = "127312"; 
+            const errorMsg = document.getElementById('error-message');
             
             if (input === correctCode) {
-                // Redirects to your main website file
-                window.location.href = "main.html"; 
+                errorMsg.style.display = "none";
+                
+                // Execute smooth UI crossfade inside the block layout module
+                document.getElementById('auth-view').style.display = 'none';
+                document.getElementById('link-view').style.display = 'block';
+                document.getElementById('gate-card').style.borderColor = '#04d361';
             } else {
-                document.getElementById('error-message').style.display = "block";
+                errorMsg.style.display = "block";
+                document.getElementById('passcode').value = '';
+                document.getElementById('passcode').focus();
             }
         }
+
+        // Bind enter keys to the code field for faster hands-free authorization execution
+        window.addEventListener('DOMContentLoaded', () => {
+            const passcodeField = document.getElementById('passcode');
+            if (passcodeField) {
+                passcodeField.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        checkCode();
+                    }
+                });
+                passcodeField.focus();
+            }
+        });
     </script>
 
 </body>
