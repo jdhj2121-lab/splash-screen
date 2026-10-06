@@ -3,74 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Olihaven - Interplanetary Family Dashboard</title>
+    <style>
+        /* CORE CONFIGURATION & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        :root {
+            --bg-space: #110a1c;
+            --text-light: #f3f3f4;
+            --text-dim: #b3b0c2;
+            --gold-star: #f4d35e;
+            --sage-shield: #90be6d;
+            --alert-red: #ff5964;
+            --bubble-bg: rgba(255, 255, 255, 0.04);
+            --bubble-border: rgba(255, 255, 255, 0.08);
+            --gradient-nebula: radial-gradient(circle at 50% -20%, #3a1c5c 0%, #110a1c 80%);
+        }
+        body {
+            background: var(--bg-space);
+            background-image: var(--gradient-nebula);
+            background-attachment: fixed;
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* LAYOUT CONTAINERS */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .bubble-panel {
+            background: var(--bubble-bg);
+            border: 1px solid var(--bubble-border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* GATE SCREEN (LOGIN OVERLAY) */
+        #gate-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(17, 10, 28, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        .gate-card {
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .logo-mark {
+            width: 16px;
+            height: 16px;
+            background: var(--gold-star);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 15px var(--gold-star);
+            margin-bottom: 0.5rem;
+        }
+        .gate-card h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .gate-card p {
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .input-field {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--bubble-border);
+            padding: 1rem 1.2rem;
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .input-field:focus {
+            border-color: var(--gold-star);
+        }
+        .btn-action {
+            width: 100%;
+            background: var(--gold-star);
+            color: #110a1c;
+            border: none;
+            padding: 1rem;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(244, 211, 94, 0.2);
+            transition: all 0.2s;
+        }
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 211, 94, 0.4);
+        }
+        #gate-message {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        /* MAIN DASHBOARD SCREEN */
+        #dashboard-screen {
+            display: none;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        .brand-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-lock {
+            background: transparent;
+            border: 1px solid var(--bubble-border);
+            color: var(--text-dim);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-lock:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        /* GRID LAYOUTS */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .pillar-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .metric-badge {
+            font-size: 0.85rem;
+            background: rgba(144, 190, 109, 0.1);
+            color: var(--sage-shield);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* CORE MODULE INTERFACES */
+        .orbit-container {
+            height: 180px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border: 1px dashed var(--bubble-border);
+            border-radius: 16px;
+            background: rgba(0,0,0,0.1);
+        }
+        .center-hearth {
+            width: 24px;
+            height: 24px;
+            background: var(--gold-star);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--gold-star);
+        }
+        .orbit-node {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            animation: floatCycle 8s infinite linear;
+        }
+        .archive-list {
+            list-style: none;
+        }
+        .archive-item {
+            padding: 0.8rem;
+            border-bottom: 1px solid var(--bubble-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .archive-item:last-child { border-bottom: none; }
+        .archive-date { font-size: 0.85rem; color: var(--text-dim); }
+
+        .shield-status {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .shield-indicator {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 4px solid var(--sage-shield);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1rem auto;
+            color: var(--sage-shield);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* ANIMATIONS */
+        @keyframes floatCycle {
+            0% { transform: rotate(0deg) translate(60px) rotate(0deg); }
+            100% { transform: rotate(360deg) translate(60px) rotate(-360deg); }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="dashboard-wrapper">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="logo">Olihaven</div>
-            <nav class="nav-menu">
-                <a href="#" class="active">Overview</a>
-                <a href="#">Analytics</a>
-                <a href="#">Settings</a>
-            </nav>
-            <button class="logout-btn" onclick="logout()">Lock Page</button>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <header class="dash-header">
-                <h1>Welcome Back!</h1>
-                <p>Here is your interactive platform overview.</p>
-            </header>
-
-            <!-- Stats Grid Box -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Active Users</h3>
-                    <p class="stat-number" id="user-count">1,248</p>
-                    <span class="stat-trend positive">+12% this week</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Total Projects</h3>
-                    <p class="stat-number">14</p>
-                    <span class="stat-trend">Stable</span>
-                </div>
-                <div class="stat-card">
-                    <h3>System Status</h3>
-                    <p class="stat-number operational">Online</p>
-                    <span class="stat-trend positive">99.9% Uptime</span>
-                </div>
+    <!-- GATE LOG-IN GATEWAY -->
+    <div id="gate-screen">
+        <div class="gate-card bubble-panel">
+            <div class="logo-mark"></div>
+            <h1>Olihaven</h1>
+            <p>Sovereign Interplanetary Cryptographic Keyway</p>
+            
+            <div class="input-group">
+                <label for="phone-number">Family Access Number</label>
+                <input type="tel" id="phone-number" class="input-field" placeholder="(555) 555-5555" maxlength="14" autocomplete="off">
             </div>
 
-            <!-- Main Interactive Display Container -->
-            <div class="content-box dashboard-main">
-                <h3>Control Terminal</h3>
-                <p>Click below to simulate system actions or update values live.</p>
-                <div class="action-zone">
-                    <button class="action-btn" onclick="simulateTraffic()">Simulate Traffic Spike</button>
-                </div>
-            </div>
-        </main>
+            <button class="btn-action" onclick="unlockDashboard()">Initialize Entry Link</button>
+            <div id="gate-message"></div>
+        </div>
     </div>
 
-    <script>
-        function logout() {
-            window.location.href = "index.html"; 
-        }
+    <!-- MAIN PLATFORM INTERFACE -->
+    <div id="dashboard-screen" class="container">
+        <header>
+            <div class="brand-logo">
+                <div class="logo-mark"></div>
+                Olihaven
+            </div>
+            <button class="btn-lock" onclick="lockDashboard()">Secure Terminal</button>
+        </header>
 
-        function simulateTraffic() {
-            const userEl = document.getElementById('user-count');
-            let currentUsers = parseInt(userEl.innerText.replace(',', ''));
-            // Randomly increase user count to show live interactivity
-            currentUsers += Math.floor(Math.random() * 150) + 50;
-            userEl.innerText = currentUsers.toLocaleString();
-        }
-    </script>
+        <div class="dashboard-grid">
+            <!-- PILLAR 1: THE HEARTH -->
+            <div class="bubble-panel">
+                <h2 class="pillar-title">The Hearth <span class="metric-badge" id="user-count">1,402 Node Links</span></h2>
+                <div class="orbit-container">
+                    <div class="center-hearth"></div>
+                    <div class="orbit-node">🚀</div>
+                </div>
+                <p style="font-size: 0.95rem; color: var(--text-dim);">Real-time systemic latency pipelines mapped. Sub-light packages active across sectors.</p>
+            </div>
 
-</body>
-</html>
-
+            <!-- PILLAR 2: THE ARK -->
+            <div class="bubble-panel">
+                <h2 class="pillar-title">The Ark <span class="metric-badge" style="background:rgba(244,211,94,0.1); color:var(--gold-star);">Secure Vaults</span></h2>
+                <ul class="archive-list">
+                    <li class="archive-item">
+                        <span>Ancestral Records Tree</span>
+                        <span class="archive-date">Root Node</span>
+                    </li>
+                    <li class="archive-item">
+                        <span>2075 Heritage Time Capsule</span>
+                        <span class="archive-date">Locked</span>
