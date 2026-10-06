@@ -126,6 +126,8 @@
             border: var(--bubble-border);
             border-radius: 12px;
             padding: 2rem;
+            display: flex;
+            flex-direction: column;
         }
         .pillar-title {
             font-size: 1.4rem;
@@ -140,6 +142,72 @@
             border-radius: 20px;
             font-weight: 600;
             float: right;
+        }
+
+        /* TRANSMISSION LOG INTERFACE (THE HEARTH EXCLUSIVES) */
+        .transmission-box {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .feed-input {
+            flex-grow: 1;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid #29292e;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .feed-input:focus {
+            border-color: var(--gold-star);
+        }
+        .btn-send {
+            background: var(--gold-star);
+            color: #110a1c;
+            border: none;
+            padding: 0 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .btn-send:hover {
+            background: #e5c144;
+        }
+        .log-container {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid #29292e;
+            border-radius: 8px;
+            padding: 0.8rem;
+            height: 150px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .log-entry {
+            border-left: 2px solid var(--gold-star);
+            padding-left: 0.5rem;
+            animation: fadeInLog 0.3s ease-out;
+        }
+        .log-meta {
+            color: var(--text-dim);
+            font-size: 0.7rem;
+            margin-bottom: 0.1rem;
+        }
+        .log-text {
+            color: var(--text-light);
+            word-break: break-all;
+        }
+
+        @keyframes fadeInLog {
+            from { opacity: 0; transform: translateX(-5px); }
+            to { opacity: 1; transform: translateX(0); }
         }
     </style>
 </head>
@@ -166,7 +234,19 @@
             <!-- PILLAR 1: THE HEARTH -->
             <div class="bubble-panel">
                 <h2 class="pillar-title">The Hearth <span class="metric-badge" id="user-count">1,402 Links</span></h2>
-                <p style="font-size: 0.95rem; color: var(--text-dim); margin-top: 1rem;">Real-time sync networks connected. Core modules running safely over active sub-light infrastructure links.</p>
+                <p style="font-size: 0.95rem; color: var(--text-dim);">Real-time sync networks connected. Core modules running safely over active sub-light infrastructure links.</p>
+                
+                <!-- NEW INTERACTIVE TRANSMISSION LOG MODULE -->
+                <div class="transmission-box">
+                    <input type="text" id="stream-message" class="feed-input" placeholder="Type encryption data stream..." autocomplete="off">
+                    <button class="btn-send" onclick="transmitStream()">Transmit</button>
+                </div>
+                <div class="log-container" id="stream-log">
+                    <div class="log-entry" style="border-left-color: var(--sage-shield);">
+                        <div class="log-meta">[SYS_INIT] // LATENCY: 0.00ms</div>
+                        <div class="log-text">Telemetry terminal pipeline initialized. Listening for orbital packets...</div>
+                    </div>
+                </div>
             </div>
 
             <!-- PILLAR 2: THE ARK -->
@@ -188,10 +268,8 @@
             const phoneInput = document.getElementById('phone-number');
             const feedback = document.getElementById('gate-message');
 
-            // Strip out non-numeric entries to isolate string sizes securely 
             const rawNumbers = phoneInput.value.replace(/\D/g, '');
 
-            // Validation rules confirming at least a 10-digit payload is parsed
             if (rawNumbers.length < 10) {
                 feedback.style.color = '#ff5964';
                 feedback.innerText = "Please enter a valid 10-digit access number.";
@@ -203,21 +281,10 @@
             feedback.innerText = "Access granted! Syncing telemetry channels...";
             feedback.style.display = "block";
 
-            // Unveil client viewports natively after execution buffer limits expire
             setTimeout(() => {
                 document.getElementById('gate-screen').style.display = 'none';
                 document.getElementById('dashboard-screen').style.display = 'block';
                 document.body.style.alignItems = 'flex-start';
                 setInterval(simulateTraffic, 3000);
-            }, 1000);
-        }
+                
 
-        function simulateTraffic() {
-            const userEl = document.getElementById('user-count');
-            let currentUsers = parseInt(userEl.innerText.replace(/,/g, ''));
-            currentUsers += Math.floor(Math.random() * 5) - 2;
-            userEl.innerText = currentUsers.toLocaleString() + " Links";
-        }
-    </script>
-</body>
-</html>
