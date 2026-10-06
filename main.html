@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Olihaven</title>
+    <title>Olihaven - System Logs</title>
     <link rel="icon" type="image/x-icon" href="./favicon-2.ico">
     <link rel="stylesheet" href="./style.css">
     <style>
-        /* Fallback styling framework to keep elements neatly structured */
         body {
             background-color: #121214;
             color: #e1e1e6;
@@ -17,116 +16,89 @@
             justify-content: center;
             align-items: center;
             margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
         }
-        .login-container {
+        .log-container {
             background-color: #202024;
             border: 1px solid #29292e;
             border-radius: 12px;
-            padding: 2.5rem;
-            text-align: center;
-            max-width: 460px;
+            padding: 2rem;
+            max-width: 600px;
             width: 100%;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #29292e;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         h2 {
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
+            margin: 0;
+            font-size: 1.5rem;
+            color: #f4d35e;
             letter-spacing: -0.5px;
         }
-        input[type="password"] {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid #29292e;
-            padding: 0.8rem 1rem;
-            border-radius: 6px;
-            color: white;
-            font-size: 1.1rem;
-            outline: none;
-            text-align: center;
-            margin-bottom: 1.2rem;
-        }
-        input[type="password"]:focus {
-            border-color: #f4d35e;
-        }
-        button {
-            display: block;
-            width: 100%;
-            background: #f4d35e;
-            color: #110a1c;
-            border: none;
-            padding: 0.8rem;
-            border-radius: 6px;
-            font-size: 1.1rem;
+        .status-badge {
+            background: rgba(4, 211, 97, 0.1);
+            color: #04d361;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            text-transform: uppercase;
         }
-        button:hover {
-            background: #e5c144;
-        }
-        #error-message {
-            margin-top: 1rem;
-            font-size: 0.95rem;
-        }
-
-        /* Revealed contact/log module styles */
-        .reveal-details {
-            text-align: center;
-            background: rgba(0,0,0,0.2);
+        .terminal-box {
+            background: #111112;
             border: 1px solid #29292e;
-            border-radius: 8px;
-            padding: 1.5rem 1rem;
-            margin-top: 1rem;
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            max-height: 300px;
+            overflow-y: auto;
             margin-bottom: 1.5rem;
+            text-align: left;
         }
-        .phone-display {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 1px;
-            margin: 0.5rem 0;
+        .log-entry {
+            margin-bottom: 0.5rem;
+            border-left: 2px solid #29292e;
+            padding-left: 0.5rem;
         }
-
-        /* FLEX CONTAINER FOR THREE BUTTONS (STACKED ON SMALL MOBILE, ROW ON WRAPPERS) */
-        .action-flex-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            width: 100%;
+        .timestamp {
+            color: #7c7c8a;
+            margin-right: 0.5rem;
         }
+        .tag-info { color: #3a86ff; font-weight: bold; }
+        .tag-success { color: #04d361; font-weight: bold; }
         
-        .action-row-split {
+        /* TWO-BUTTON FLEX LAYOUT MODULE */
+        .action-flex-row {
             display: flex;
             gap: 0.75rem;
             width: 100%;
+            margin-bottom: 0.75rem;
         }
 
         .link-btn {
             display: flex;
             justify-content: center;
             align-items: center;
+            flex: 1;
             padding: 0.8rem;
             border-radius: 6px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
-            transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.1s;
+            transition: all 0.2s;
             box-sizing: border-box;
             text-align: center;
         }
-        
-        /* Full width button styling */
-        .btn-full {
-            width: 100%;
-        }
-        
-        /* Shared behavior for split sizing rows */
-        .btn-split {
-            flex: 1;
-        }
-
         .btn-primary {
             background: #f4d35e;
             color: #110a1c;
@@ -134,14 +106,6 @@
         }
         .btn-primary:hover {
             background: #e5c144;
-        }
-        .btn-info {
-            background: #3a86ff;
-            color: #ffffff;
-            border: none;
-        }
-        .btn-info:hover {
-            background: #256be5;
         }
         .btn-secondary {
             background: transparent;
@@ -153,87 +117,64 @@
             border-color: #7c7c8a;
             color: #ffffff;
         }
-        .link-btn:active {
-            transform: scale(0.98);
-        }
     </style>
 </head>
 <body>
 
-    <div class="login-container" id="gate-card">
-        <!-- WRAPPER: INITIAL SECURITY LOGIN VIEW -->
-        <div id="auth-view">
-            <h2>Enter Passcode</h2>
-            <input type="password" id="passcode" placeholder="Enter 6-digit code" maxlength="6" autocomplete="off">
-            <button onclick="checkCode()">Submit</button>
-            <p id="error-message" style="color: #ff5964; display: none;">Incorrect passcode. Try again.</p>
+    <div class="log-container">
+        <div class="log-header">
+            <h2>Transmission History</h2>
+            <div class="status-badge">Online</div>
         </div>
 
-        <!-- WRAPPER: REVEALED CONTACT INFORMATION & NAVIGATION -->
-        <div id="link-view" style="display: none;">
-            <h2 style="color: #f4d35e;">Access Granted</h2>
-            <p style="color: #7c7c8a; font-size: 0.95rem; margin-bottom: 1rem;">System Nodes Securely Connected</p>
-            
-            <div class="reveal-details">
-                <p style="color: #7c7c8a; font-size: 0.85rem; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Direct Contact Lines</p>
-                <div class="phone-display">(636) 293-7619</div>
+        <!-- SCROLLABLE TERMINAL LOG READER WITH DYNAMIC TIMESTAMPS -->
+        <div class="terminal-box" id="log-screen">
+            <div class="log-entry">
+                <span class="timestamp running-time">[00:00:00]</span><span class="tag-success">SUCCESS</span> Node link established safely.
             </div>
-
-            <!-- THREE DIRECTION ACTIONS ENGINE GRID -->
-            <div class="action-flex-grid">
-                <!-- PRIMARY STRAP ACTION: CALL PROTOCOL -->
-                <a class="link-btn btn-primary btn-full" href="tel:+16362937619">
-                    Call Now 📞
-                </a>
-                
-                <!-- SECONDARY DIVIDED ROW SUBMODULE -->
-                <div class="action-row-split">
-                    <!-- SMS PROTOCOL TRIGGER -->
-                    <a class="link-btn btn-info btn-split" href="sms:+16362937619">
-                        Text SMS 💬
-                    </a>
-                    
-                    <!-- LOCAL STORAGE/SERVER SYSTEM TRANSMISSION LOG -->
-                    <a class="link-btn btn-secondary btn-split" href="main.html">
-                        Open Logs →
-                    </a>
-                </div>
+            <div class="log-entry">
+                <span class="timestamp running-time">[00:00:00]</span><span class="tag-info">INFO</span> Interface handshake packet resolved.
+            </div>
+            <div class="log-entry">
+                <span class="timestamp running-time">[00:00:00]</span><span class="tag-info">INFO</span> Route initial sync protocol launched.
+            </div>
+            <div class="log-entry">
+                <span class="timestamp running-time">[00:00:00]</span><span class="tag-success">SUCCESS</span> Client verification token accepted.
             </div>
         </div>
+
+        <!-- TWO-BUTTON INTERACTIVE UTILITY BAR -->
+        <div class="action-flex-row">
+            <!-- NEW DIRECT CLICK-TO-CALL HOTKEY MODULE -->
+            <a href="tel:+16367232298" class="link-btn btn-primary">
+                Press here to call 6367232298 📞
+            </a>
+        </div>
+
+        <!-- RETURN BACK TO ACCESS INTERFACE -->
+        <a href="index.html" class="link-btn btn-secondary">
+            ← Return to Node Gate
+        </a>
     </div>
 
     <script>
-        function checkCode() {
-            const input = document.getElementById('passcode').value;
-            const correctCode = "127312"; 
-            const errorMsg = document.getElementById('error-message');
+        function updateTimestamps() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
             
-            if (input === correctCode) {
-                errorMsg.style.display = "none";
-                
-                // Execute smooth UI crossfade inside the block layout module
-                document.getElementById('auth-view').style.display = 'none';
-                document.getElementById('link-view').style.display = 'block';
-                document.getElementById('gate-card').style.borderColor = '#04d361';
-            } else {
-                errorMsg.style.display = "block";
-                document.getElementById('passcode').value = '';
-                document.getElementById('passcode').focus();
+            const timeString = `[${hours}:${minutes}:${seconds}]`;
+            
+            const elements = document.getElementsByClassName('running-time');
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].textContent = timeString;
             }
         }
 
-        // Bind enter keys to the code field for faster hands-free authorization execution
         window.addEventListener('DOMContentLoaded', () => {
-            const passcodeField = document.getElementById('passcode');
-            if (passcodeField) {
-                passcodeField.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        checkCode();
-                    }
-                });
-                passcodeField.focus();
-            }
+            updateTimestamps();
+            setInterval(updateTimestamps, 1000);
         });
     </script>
 
