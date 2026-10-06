@@ -3,21 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
-    <link rel="stylesheet" href="./style.css">
+    <title>Main Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="main-container">
-        <h1>Welcome to the Main Page!</h1>
-        <p>You have successfully unlocked the splash screen using the correct passcode.</p>
-        
-        <!-- You can replace this section with your actual content -->
-        <div class="content-box">
-            <h3>Dashboard / Main Content</h3>
-            <p>Start building your main website features, images, or dashboard widgets here.</p>
-        </div>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">Olihaven</div>
+            <nav class="nav-menu">
+                <a href="#" class="active">Overview</a>
+                <a href="#">Analytics</a>
+                <a href="#">Settings</a>
+            </nav>
+            <button class="logout-btn" onclick="logout()">Lock Page</button>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="dash-header">
+                <h1>Welcome Back!</h1>
+                <p>Here is your interactive platform overview.</p>
+            </header>
+
+            <!-- Stats Grid Box -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Active Users</h3>
+                    <p class="stat-number" id="user-count">1,248</p>
+                    <span class="stat-trend positive">+12% this week</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Projects</h3>
+                    <p class="stat-number">14</p>
+                    <span class="stat-trend">Stable</span>
+                </div>
+                <div class="stat-card">
+                    <h3>System Status</h3>
+                    <p class="stat-number operational">Online</p>
+                    <span class="stat-trend positive">99.9% Uptime</span>
+                </div>
+            </div>
+
+            <!-- Main Interactive Display Container -->
+            <div class="content-box dashboard-main">
+                <h3>Control Terminal</h3>
+                <p>Click below to simulate system actions or update values live.</p>
+                <div class="action-zone">
+                    <button class="action-btn" onclick="simulateTraffic()">Simulate Traffic Spike</button>
+                </div>
+            </div>
+        </main>
     </div>
+
+    <script>
+        function logout() {
+            window.location.href = "index.html"; 
+        }
+
+        function simulateTraffic() {
+            const userEl = document.getElementById('user-count');
+            let currentUsers = parseInt(userEl.innerText.replace(',', ''));
+            // Randomly increase user count to show live interactivity
+            currentUsers += Math.floor(Math.random() * 150) + 50;
+            userEl.innerText = currentUsers.toLocaleString();
+        }
+    </script>
 
 </body>
 </html>
+
