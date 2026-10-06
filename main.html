@@ -13,58 +13,35 @@
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
         :root {
-            --bg-space: #110a1c;
-            --text-light: #f3f3f4;
-            --text-dim: #b3b0c2;
+            --bg-space: #121214;
+            --text-light: #e1e1e6;
+            --text-dim: #7c7c8a;
             --gold-star: #f4d35e;
-            --sage-shield: #90be6d;
+            --sage-shield: #04d361;
             --alert-red: #ff5964;
-            --bubble-bg: rgba(255, 255, 255, 0.04);
-            --bubble-border: rgba(255, 255, 255, 0.08);
-            --gradient-nebula: radial-gradient(circle at 50% -20%, #3a1c5c 0%, #110a1c 80%);
+            --bubble-bg: #202024;
+            --bubble-border: 1px solid #29292e;
         }
         body {
-            background: var(--bg-space);
-            background-image: var(--gradient-nebula);
-            background-attachment: fixed;
+            background-color: var(--bg-space);
             color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden;
             min-height: 100vh;
-        }
-
-        /* LAYOUT CONTAINERS */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .bubble-panel {
-            background: var(--bubble-bg);
-            border: 1px solid var(--bubble-border);
-            border-radius: 24px;
-            padding: 2rem;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* GATE SCREEN (LOGIN OVERLAY) */
         #gate-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            background: rgba(17, 10, 28, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
-        .gate-card {
-            width: 100%;
-            max-width: 420px;
+            max-width: 520px;
             text-align: center;
+            background-color: var(--bubble-bg);
+            border: var(--bubble-border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
         .logo-mark {
             width: 16px;
@@ -73,15 +50,19 @@
             border-radius: 50%;
             display: inline-block;
             box-shadow: 0 0 15px var(--gold-star);
-            margin-bottom: 0.5rem;
-        }
-        .gate-card h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-        }
-        .gate-card p {
-            color: var(--text-dim);
             margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+        .gate-subtitle {
+            color: var(--text-dim);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
         .input-group {
             margin-bottom: 1.5rem;
@@ -97,14 +78,13 @@
         }
         .input-field {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--bubble-border);
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid #29292e;
             padding: 1rem 1.2rem;
-            border-radius: 14px;
+            border-radius: 8px;
             color: white;
             font-size: 1.1rem;
             outline: none;
-            transition: border-color 0.2s;
         }
         .input-field:focus {
             border-color: var(--gold-star);
@@ -115,16 +95,14 @@
             color: #110a1c;
             border: none;
             padding: 1rem;
-            border-radius: 14px;
+            border-radius: 8px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(244, 211, 94, 0.2);
-            transition: all 0.2s;
+            transition: background 0.2s;
         }
         .btn-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(244, 211, 94, 0.4);
+            background: #e5c144;
         }
         #gate-message {
             margin-top: 1rem;
@@ -135,123 +113,33 @@
         /* MAIN DASHBOARD SCREEN */
         #dashboard-screen {
             display: none;
+            width: 100%;
+            max-width: 1200px;
         }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3rem;
-        }
-        .brand-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .btn-lock {
-            background: transparent;
-            border: 1px solid var(--bubble-border);
-            color: var(--text-dim);
-            padding: 0.6rem 1.2rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-lock:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-        }
-
-        /* GRID LAYOUTS */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
         }
+        .bubble-panel {
+            background: var(--bubble-bg);
+            border: var(--bubble-border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
         .pillar-title {
             font-size: 1.4rem;
             margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            color: #ffffff;
         }
         .metric-badge {
             font-size: 0.85rem;
-            background: rgba(144, 190, 109, 0.1);
+            background: rgba(4, 211, 97, 0.1);
             color: var(--sage-shield);
             padding: 0.2rem 0.6rem;
             border-radius: 20px;
             font-weight: 600;
-        }
-
-        /* CORE MODULE INTERFACES */
-        .orbit-container {
-            height: 180px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            border: 1px dashed var(--bubble-border);
-            border-radius: 16px;
-            background: rgba(0,0,0,0.1);
-        }
-        .center-hearth {
-            width: 24px;
-            height: 24px;
-            background: var(--gold-star);
-            border-radius: 50%;
-            box-shadow: 0 0 20px var(--gold-star);
-        }
-        .orbit-node {
-            position: absolute;
-            width: 32px;
-            height: 32px;
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.8rem;
-            animation: floatCycle 8s infinite linear;
-        }
-        .archive-list {
-            list-style: none;
-        }
-        .archive-item {
-            padding: 0.8rem;
-            border-bottom: 1px solid var(--bubble-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .archive-item:last-child { border-bottom: none; }
-        .archive-date { font-size: 0.85rem; color: var(--text-dim); }
-
-        .shield-status {
-            text-align: center;
-            padding: 1.5rem;
-        }
-        .shield-indicator {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            border: 4px solid var(--sage-shield);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 1rem auto;
-            color: var(--sage-shield);
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        /* ANIMATIONS */
-        @keyframes floatCycle {
-            0% { transform: rotate(0deg) translate(60px) rotate(0deg); }
-            100% { transform: rotate(360deg) translate(60px) rotate(-360deg); }
+            float: right;
         }
     </style>
 </head>
@@ -259,50 +147,77 @@
 
     <!-- GATE LOG-IN GATEWAY -->
     <div id="gate-screen">
-        <div class="gate-card bubble-panel">
-            <div class="logo-mark"></div>
-            <h1>Olihaven</h1>
-            <p>Sovereign Interplanetary Cryptographic Keyway</p>
-            
-            <div class="input-group">
-                <label for="phone-number">Family Access Number</label>
-                <input type="tel" id="phone-number" class="input-field" placeholder="(555) 555-5555" maxlength="14" autocomplete="off">
-            </div>
-
-            <button class="btn-action" onclick="unlockDashboard()">Initialize Entry Link</button>
-            <div id="gate-message"></div>
+        <div class="logo-mark"></div>
+        <h1>Olihaven</h1>
+        <p class="gate-subtitle">Sovereign Interplanetary Cryptographic Keyway</p>
+        
+        <div class="input-group">
+            <label for="phone-number">Family Access Number</label>
+            <input type="tel" id="phone-number" class="input-field" placeholder="Enter 10-digit number" autocomplete="off">
         </div>
+
+        <button class="btn-action" onclick="unlockDashboard()">Initialize Entry Link</button>
+        <div id="gate-message"></div>
     </div>
 
     <!-- MAIN PLATFORM INTERFACE -->
-    <div id="dashboard-screen" class="container">
-        <header>
-            <div class="brand-logo">
-                <div class="logo-mark"></div>
-                Olihaven
-            </div>
-            <button class="btn-lock" onclick="lockDashboard()">Secure Terminal</button>
-        </header>
-
+    <div id="dashboard-screen">
         <div class="dashboard-grid">
             <!-- PILLAR 1: THE HEARTH -->
             <div class="bubble-panel">
-                <h2 class="pillar-title">The Hearth <span class="metric-badge" id="user-count">1,402 Node Links</span></h2>
-                <div class="orbit-container">
-                    <div class="center-hearth"></div>
-                    <div class="orbit-node">🚀</div>
-                </div>
-                <p style="font-size: 0.95rem; color: var(--text-dim);">Real-time systemic latency pipelines mapped. Sub-light packages active across sectors.</p>
+                <h2 class="pillar-title">The Hearth <span class="metric-badge" id="user-count">1,402 Links</span></h2>
+                <p style="font-size: 0.95rem; color: var(--text-dim); margin-top: 1rem;">Real-time sync networks connected. Core modules running safely over active sub-light infrastructure links.</p>
             </div>
 
             <!-- PILLAR 2: THE ARK -->
             <div class="bubble-panel">
-                <h2 class="pillar-title">The Ark <span class="metric-badge" style="background:rgba(244,211,94,0.1); color:var(--gold-star);">Secure Vaults</span></h2>
-                <ul class="archive-list">
-                    <li class="archive-item">
-                        <span>Ancestral Records Tree</span>
-                        <span class="archive-date">Root Node</span>
-                    </li>
-                    <li class="archive-item">
-                        <span>2075 Heritage Time Capsule</span>
-                        <span class="archive-date">Locked</span>
+                <h2 class="pillar-title">The Ark <span class="metric-badge" style="background:rgba(244,211,94,0.1); color:var(--gold-star);">Secure</span></h2>
+                <p style="font-size: 0.95rem; color: var(--text-dim); margin-top: 1rem;">Ancestral Records encrypted. Secure biometric voice architectures mapped inside unindexed decentralized storage vaults.</p>
+            </div>
+
+            <!-- PILLAR 3: THE ECLIPSE SHIELD -->
+            <div class="bubble-panel">
+                <h2 class="pillar-title">Eclipse Shield <span class="metric-badge">100% Active</span></h2>
+                <p style="font-size: 0.95rem; color: var(--text-dim); margin-top: 1rem;">Zero-knowledge privacy shields functional. Interplanetary firewall scripts fully obscuring external metrics routing paths.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function unlockDashboard() {
+            const phoneInput = document.getElementById('phone-number');
+            const feedback = document.getElementById('gate-message');
+
+            // Strip out non-numeric entries to isolate string sizes securely 
+            const rawNumbers = phoneInput.value.replace(/\D/g, '');
+
+            // Validation rules confirming at least a 10-digit payload is parsed
+            if (rawNumbers.length < 10) {
+                feedback.style.color = '#ff5964';
+                feedback.innerText = "Please enter a valid 10-digit access number.";
+                feedback.style.display = "block";
+                return;
+            }
+
+            feedback.style.color = '#04d361';
+            feedback.innerText = "Access granted! Syncing telemetry channels...";
+            feedback.style.display = "block";
+
+            // Unveil client viewports natively after execution buffer limits expire
+            setTimeout(() => {
+                document.getElementById('gate-screen').style.display = 'none';
+                document.getElementById('dashboard-screen').style.display = 'block';
+                document.body.style.alignItems = 'flex-start';
+                setInterval(simulateTraffic, 3000);
+            }, 1000);
+        }
+
+        function simulateTraffic() {
+            const userEl = document.getElementById('user-count');
+            let currentUsers = parseInt(userEl.innerText.replace(/,/g, ''));
+            currentUsers += Math.floor(Math.random() * 5) - 2;
+            userEl.innerText = currentUsers.toLocaleString() + " Links";
+        }
+    </script>
+</body>
+</html>
