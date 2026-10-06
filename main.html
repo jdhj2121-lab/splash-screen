@@ -3,226 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Olihaven - Interplanetary Family Dashboard</title>
+    <title>Olihaven</title>
+    <link rel="icon" type="image/x-icon" href="./favicon-2.ico">
+    <link rel="stylesheet" href="./style.css">
     <style>
-        /* CORE CONFIGURATION & VARIABLES */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-        :root {
-            --bg-space: #121214;
-            --text-light: #e1e1e6;
-            --text-dim: #7c7c8a;
-            --gold-star: #f4d35e;
-            --sage-shield: #04d361;
-            --alert-red: #ff5964;
-            --bubble-bg: #202024;
-            --bubble-border: 1px solid #29292e;
-        }
+        /* Fallback styling framework to keep elements neatly structured */
         body {
-            background-color: var(--bg-space);
-            color: var(--text-light);
+            background-color: #121214;
+            color: #e1e1e6;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
-            padding: 3rem 1.5rem 1.5rem 1.5rem;
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
         }
-
-        /* MAIN DASHBOARD CONTAINER */
-        #dashboard-screen {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            align-items: start;
-        }
-        .bubble-panel {
-            background: var(--bubble-bg);
-            border: var(--bubble-border);
+        .login-container {
+            background-color: #202024;
+            border: 1px solid #29292e;
             border-radius: 12px;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
+            padding: 2.5rem;
+            text-align: center;
+            max-width: 460px;
+            width: 100%;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .pillar-title {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
+        h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
         }
-        .metric-badge {
-            font-size: 0.85rem;
-            background: rgba(4, 211, 97, 0.1);
-            color: var(--sage-shield);
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            font-weight: 600;
-            float: right;
-        }
-
-        /* TRANSMISSION LOG FEED COMPONENTS */
-        .transmission-box {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1.2rem;
-            margin-bottom: 1rem;
-        }
-        .feed-input {
-            flex-grow: 1;
+        input[type="password"] {
+            width: 100%;
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid #29292e;
-            padding: 0.7rem 0.9rem;
+            padding: 0.8rem 1rem;
             border-radius: 6px;
             color: white;
-            font-size: 0.9rem;
+            font-size: 1.1rem;
             outline: none;
+            text-align: center;
+            margin-bottom: 1.2rem;
         }
-        .feed-input:focus {
-            border-color: var(--gold-star);
+        input[type="password"]:focus {
+            border-color: #f4d35e;
         }
-        .btn-send {
-            background: var(--gold-star);
+        button {
+            display: block;
+            width: 100%;
+            background: #f4d35e;
             color: #110a1c;
             border: none;
-            padding: 0 1.2rem;
+            padding: 0.8rem;
             border-radius: 6px;
+            font-size: 1.1rem;
             font-weight: 600;
-            font-size: 0.85rem;
             cursor: pointer;
-            transition: background 0.1s;
+            transition: background 0.2s, transform 0.1s;
         }
-        .btn-send:hover {
+        button:hover {
             background: #e5c144;
         }
-        .log-container {
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid #29292e;
-            border-radius: 8px;
-            padding: 0.8rem;
-            height: 160px;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 0.8rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-        .log-entry {
-            border-left: 2px solid var(--gold-star);
-            padding-left: 0.6rem;
-            animation: fadeInLog 0.25s ease-out;
-        }
-        .log-meta {
-            color: var(--text-dim);
-            font-size: 0.72rem;
-            margin-bottom: 0.15rem;
-        }
-        .log-text {
-            color: var(--text-light);
-            word-break: break-all;
-            line-height: 1.4;
+        #error-message {
+            margin-top: 1rem;
+            font-size: 0.95rem;
         }
 
-        @keyframes fadeInLog {
-            from { opacity: 0; transform: translateX(-4px); }
-            to { opacity: 1; transform: translateX(0); }
+        /* Success blueprint reveal view styles */
+        .spec-details {
+            text-align: left;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid #29292e;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #29292e;
+            padding: 0.3rem 0;
+        }
+        .spec-item:last-child { border-bottom: none; }
+        .spec-label { color: #7c7c8a; font-weight: 500; }
+        .spec-value { color: #ffffff; font-weight: 600; }
+
+        /* HORIZONTAL SIDE-BY-SIDE BUTTON CONTAINER EXCLUSIVES */
+        .action-flex-row {
+            display: flex;
+            gap: 0.75rem;
+            width: 100%;
+        }
+        .link-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1; /* Makes both buttons identical in width scaling */
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.1s;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .btn-primary {
+            background: #f4d35e;
+            color: #110a1c;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: #e5c144;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #b3b0c2;
+            border: 1px solid #29292e;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: #7c7c8a;
+            color: #ffffff;
+        }
+        .link-btn:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
 
-    <!-- MAIN DASHBOARD SCREEN (Gate bypassed entirely) -->
-    <div id="dashboard-screen">
-        <div class="dashboard-grid">
-            <!-- PILLAR 1: THE HEARTH WITH LIVE LOG PIPELINES -->
-            <div class="bubble-panel">
-                <h2 class="pillar-title">The Hearth <span class="metric-badge" id="user-count">1,402 Links</span></h2>
-                <p style="font-size: 0.95rem; color: var(--text-dim);">Real-time sync networks connected. Core modules running safely over active sub-light infrastructure links.</p>
+    <div class="login-container" id="gate-card">
+        <!-- WRAPPER: INITIAL SECURITY LOGIN VIEW -->
+        <div id="auth-view">
+            <h2>Enter Passcode</h2>
+            <input type="password" id="passcode" placeholder="Enter 6-digit code" maxlength="6" autocomplete="off">
+            <button onclick="checkCode()">Submit</button>
+            <p id="error-message" style="color: #ff5964; display: none;">Incorrect passcode. Try again.</p>
+        </div>
+
+        <!-- WRAPPER: REVEALED HYPERCAR CONNECTION DECK -->
+        <div id="link-view" style="display: none;">
+            <h2 style="color: #f4d35e;">Telemetry Unlocked</h2>
+            <p style="color: #7c7c8a; font-size: 0.95rem; margin-bottom: 1rem;">Sovereign Node Navigation Engine Active</p>
+            
+            <div class="spec-details">
+                <div class="spec-item"><span class="spec-label">Model:</span><span class="spec-value">Ferrari F80 Hybrid</span></div>
+                <div class="spec-item"><span class="spec-label">Output:</span><span class="spec-value">1,184 HP V6-Hybrid</span></div>
+                <div class="spec-item"><span class="spec-label">Body:</span><span class="spec-value">Blu Elettrico 2020</span></div>
+                <div class="spec-item"><span class="spec-label">Livery:</span><span class="spec-value">Argento Nurburgring</span></div>
+            </div>
+
+            <!-- THE HORIZONTAL INTERACTIVE ACTION ROW -->
+            <div class="action-flex-row">
+                <!-- PRIMARY ACTION: OPENS CONFIGURATOR IN NEW TAB -->
+                <a class="link-btn btn-primary" href="https://ferrari.com" target="_blank" rel="noopener noreferrer">
+                    Ferrari F80 ↗
+                </a>
                 
-                <div class="transmission-box">
-                    <input type="text" id="stream-message" class="feed-input" placeholder="Type transmission payload..." autocomplete="off">
-                    <button class="btn-send" onclick="transmitStream()">Transmit</button>
-                </div>
-                <div class="log-container" id="stream-log">
-                    <div class="log-entry" style="border-left-color: var(--sage-shield);">
-                        <div class="log-meta">[SYS_INIT] // LATENCY: 0.00ms</div>
-                        <div class="log-text">Telemetry terminal pipeline initialized. Listening for orbital packets...</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PILLAR 2: THE ARK -->
-            <div class="bubble-panel">
-                <h2 class="pillar-title">The Ark <span class="metric-badge" style="background:rgba(244,211,94,0.1); color:var(--gold-star);">Secure</span></h2>
-                <p style="font-size: 0.95rem; color: var(--text-dim); margin-top: 1rem;">Ancestral Records encrypted. Secure biometric voice architectures mapped inside unindexed decentralized storage vaults.</p>
-            </div>
-
-            <!-- PILLAR 3: THE ECLIPSE SHIELD -->
-            <div class="bubble-panel">
-                <h2 class="pillar-title">Eclipse Shield <span class="metric-badge">100% Active</span></h2>
-                <p style="font-size: 0.95rem; color: var(--text-dim); margin-top: 1rem;">Zero-knowledge privacy shields functional. Interplanetary firewall scripts fully obscuring external metrics routing paths.</p>
+                <!-- SECONDARY ACTION: FORWARDS USER TO YOUR SYSTEM TRANSMISSION LOG -->
+                <a class="link-btn btn-secondary" href="main.html">
+                    Open Logs →
+                </a>
             </div>
         </div>
     </div>
 
     <script>
-        // Start simulation immediately on page mount
-        setInterval(simulateTraffic, 3000);
-        
-        // Track manual Enter key hits natively inside input bounding boxes
+        function checkCode() {
+            const input = document.getElementById('passcode').value;
+            const correctCode = "127312"; 
+            const errorMsg = document.getElementById('error-message');
+            
+            if (input === correctCode) {
+                errorMsg.style.display = "none";
+                
+                // Execute smooth UI crossfade inside the block layout module
+                document.getElementById('auth-view').style.display = 'none';
+                document.getElementById('link-view').style.display = 'block';
+                document.getElementById('gate-card').style.borderColor = '#04d361';
+            } else {
+                errorMsg.style.display = "block";
+                document.getElementById('passcode').value = '';
+                document.getElementById('passcode').focus();
+            }
+        }
+
+        // Bind enter keys to the code field for faster hands-free authorization execution
         window.addEventListener('DOMContentLoaded', () => {
-            const streamInput = document.getElementById('stream-message');
-            if (streamInput) {
-                streamInput.addEventListener('keydown', function(e) {
+            const passcodeField = document.getElementById('passcode');
+            if (passcodeField) {
+                passcodeField.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
-                        transmitStream();
+                        checkCode();
                     }
                 });
+                passcodeField.focus();
             }
         });
-
-        function simulateTraffic() {
-            const userEl = document.getElementById('user-count');
-            if(!userEl) return;
-            let currentUsers = parseInt(userEl.innerText.replace(/,/g, ''));
-            currentUsers += Math.floor(Math.random() * 5) - 2;
-            userEl.innerText = currentUsers.toLocaleString() + " Links";
-        }
-
-        function transmitStream() {
-            const messageInput = document.getElementById('stream-message');
-            const logContainer = document.getElementById('stream-log');
-            
-            if (!messageInput || !logContainer) return;
-            const text = messageInput.value.trim();
-
-            if (text === '') return;
-
-            const timestamp = new Date().toLocaleTimeString();
-            const fakeLatency = (Math.random() * 4.5 + 1.2).toFixed(2);
-            
-            const entry = document.createElement('div');
-            entry.className = 'log-entry';
-            entry.innerHTML = `
-                <div class="log-meta">[${timestamp}] // LATENCY: ${fakeLatency}s</div>
-                <div class="log-text">${escapeHtml(text)}</div>
-            `;
-
-            logContainer.appendChild(entry);
-            logContainer.scrollTop = logContainer.scrollHeight;
-            
-            messageInput.value = '';
-        }
-
-        function escapeHtml(string) {
-            return string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        }
     </script>
+
 </body>
 </html>
