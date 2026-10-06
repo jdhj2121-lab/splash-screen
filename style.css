@@ -161,3 +161,122 @@ body {
 .logout-btn:hover {
     background-color: rgba(255, 101, 101, 0.1);
 }
+/* ==========================================================================
+   4. Responsive Design & Mobile Breakpoints 
+   ========================================================================== */
+
+/* 📱 Small Laptops & Tablets (Max width: 900px) */
+@media (max-width: 900px) {
+    .dashboard-wrapper {
+        flex-direction: column; /* Stacks the sidebar layout vertically on top of content */
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #29292e;
+        padding: 1.5rem 2rem;
+        flex-direction: row; /* Aligns menu items horizontally like a navbar */
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        margin-bottom: 0; /* Clears massive bottom spacing meant for vertical layout */
+    }
+
+    .nav-menu {
+        flex-direction: row; /* Positions menu links side-by-side */
+        gap: 0.5rem;
+        flex-grow: 0;
+    }
+
+    .nav-menu a {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .logout-btn {
+        margin-top: 0; /* Stops the log-out button from stretching downwards */
+        padding: 0.5rem 1rem;
+    }
+
+    .main-content {
+        padding: 2rem; /* Reduces padding slightly to make room for the screen */
+    }
+}
+
+/* 📱 Mobile Phones & Small Devices (Max width: 600px) */
+@media (max-width: 600px) {
+    .sidebar {
+        padding: 1rem;
+        flex-direction: column; /* Stacks header elements into a tidy list on tiny phones */
+        gap: 1rem;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .nav-menu {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .nav-menu a {
+        flex: 1; /* Ensures links balance evenly on narrow grids */
+        text-align: center;
+        font-size: 0.85rem;
+        padding: 0.5rem 0.4rem;
+    }
+
+    .main-content {
+        padding: 1.5rem 1rem; /* Maximize usable space for metrics content */
+    }
+
+    .dash-header h1 {
+        font-size: 1.8rem; /* Makes text title clear without wrapping aggressively */
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr; /* Forces overview data cards to stack into a neat single column */
+        gap: 1rem;
+    }
+
+    .stat-card {
+        padding: 1.2rem;
+    }
+
+    .stat-number {
+        font-size: 1.75rem;
+    }
+
+    .content-box {
+        padding: 1.5rem;
+    }
+}
+/* 🔐 Splash Screen Mobile Adjustments (index.html) */
+@media (max-width: 480px) {
+    body {
+        padding: 1.5rem; /* Prevents container from touching the edge of the screen */
+    }
+
+    .login-container {
+        padding: 2rem 1.5rem; /* Reduces padding slightly to maximize input area */
+        border-radius: 12px; /* Makes card edges look slightly softer on mobile */
+    }
+
+    .login-container h2 {
+        font-size: 1.5rem; /* Slightly scales down heading size to prevent line-wrapping */
+        margin-bottom: 1.25rem;
+    }
+
+    .login-container input {
+        padding: 0.9rem; /* Marginally increases tap target height for thumb inputs */
+        font-size: 1.1rem; /* Forces font size above 16px to prevent iOS Safari auto-zoom bugs */
+        letter-spacing: 2px; /* Adds breathing room for the password bullets */
+    }
+
+    .login-container button {
+        padding: 0.9rem; /* Matches input padding for balanced vertical touch targets */
+        font-size: 1.05rem;
+    }
+}
