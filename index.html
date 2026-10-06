@@ -50,7 +50,9 @@
             border-color: #f4d35e;
         }
         button, .link-btn {
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 100%;
             background: #f4d35e;
             color: #110a1c;
@@ -62,6 +64,8 @@
             cursor: pointer;
             text-decoration: none;
             transition: background 0.2s, transform 0.1s;
+            box-sizing: border-box;
+            text-align: center;
         }
         button:hover, .link-btn:hover {
             background: #e5c144;
@@ -74,27 +78,72 @@
             font-size: 0.95rem;
         }
 
-        /* Success blueprint reveal view styles */
-        .spec-details {
-            text-align: left;
+        /* Revealed contact/log module styles */
+        .reveal-details {
+            text-align: center;
             background: rgba(0,0,0,0.2);
             border: 1px solid #29292e;
             border-radius: 8px;
-            padding: 1rem;
+            padding: 1.5rem 1rem;
             margin-top: 1rem;
             margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            line-height: 1.5;
         }
-        .spec-item {
+        .phone-display {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+            margin: 0.5rem 0;
+        }
+
+        /* FLEX CONTAINER FOR THREE BUTTONS */
+        .action-flex-grid {
             display: flex;
-            justify-content: space-between;
-            border-bottom: 1px dashed #29292e;
-            padding: 0.3rem 0;
+            flex-direction: column;
+            gap: 0.75rem;
+            width: 100%;
         }
-        .spec-item:last-child { border-bottom: none; }
-        .spec-label { color: #7c7c8a; font-weight: 500; }
-        .spec-value { color: #ffffff; font-weight: 600; }
+        
+        .action-row-split {
+            display: flex;
+            gap: 0.75rem;
+            width: 100%;
+        }
+        
+        .btn-full {
+            width: 100%;
+        }
+        
+        .btn-split {
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: #f4d35e;
+            color: #110a1c;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: #e5c144;
+        }
+        .btn-info {
+            background: #3a86ff;
+            color: #ffffff;
+            border: none;
+        }
+        .btn-info:hover {
+            background: #256be5;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #b3b0c2;
+            border: 1px solid #29292e;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: #7c7c8a;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -108,21 +157,36 @@
             <p id="error-message" style="color: #ff5964; display: none;">Incorrect passcode. Try again.</p>
         </div>
 
-        <!-- WRAPPER: REVEALED HYPERCAR CONNECTION DECK -->
+        <!-- WRAPPER: REVEALED CONTACT INFORMATION & NAVIGATION -->
         <div id="link-view" style="display: none;">
-            <h2 style="color: #f4d35e;">Telemetry Unlocked</h2>
-            <p style="color: #7c7c8a; font-size: 0.95rem; margin-bottom: 1rem;">Ferrari F80 Holo-Blueprint Active</p>
+            <h2 style="color: #f4d35e;">Access Granted</h2>
+            <p style="color: #7c7c8a; font-size: 0.95rem; margin-bottom: 1rem;">System Nodes Securely Connected</p>
             
-            <div class="spec-details">
-                <div class="spec-item"><span class="spec-label">Model:</span><span class="spec-value">Ferrari F80 Hybrid</span></div>
-                <div class="spec-item"><span class="spec-label">Output:</span><span class="spec-value">1,184 HP V6-Hybrid</span></div>
-                <div class="spec-item"><span class="spec-label">Body:</span><span class="spec-value">Blu Elettrico 2020</span></div>
-                <div class="spec-item"><span class="spec-label">Livery:</span><span class="spec-value">Argento Nurburgring</span></div>
+            <div class="reveal-details">
+                <p style="color: #7c7c8a; font-size: 0.85rem; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Direct Contact Lines</p>
+                <div class="phone-display">(636) 293-7619</div>
             </div>
 
-            <a class="link-btn" href="https://ferrari.com" target="_blank" rel="noopener noreferrer">
-                Launch Maranello Configurator ↗
-            </a>
+            <!-- THREE DIRECTION ACTIONS ENGINE GRID -->
+            <div class="action-flex-grid">
+                <!-- PRIMARY STRAP ACTION: CALL PROTOCOL -->
+                <a class="link-btn btn-primary btn-full" href="tel:+16362937619">
+                    Call Now 📞
+                </a>
+                
+                <!-- SECONDARY DIVIDED ROW SUBMODULE -->
+                <div class="action-row-split">
+                    <!-- SMS PROTOCOL TRIGGER -->
+                    <a class="link-btn btn-info btn-split" href="sms:+16362937619">
+                        Text SMS 💬
+                    </a>
+                    
+                    <!-- LOCAL STORAGE/SERVER SYSTEM TRANSMISSION LOG -->
+                    <a class="link-btn btn-secondary btn-split" href="main.html">
+                        Open Logs →
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
