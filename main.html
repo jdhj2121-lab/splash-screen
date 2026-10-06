@@ -32,7 +32,7 @@
             align-items: center;
         }
 
-        /* GATE SCREEN (LOGIN OVERLAY Layered Standalone) */
+        /* GATE SCREEN (LOGIN OVERLAY) */
         #gate-screen {
             width: 100%;
             max-width: 520px;
@@ -110,7 +110,7 @@
             display: none;
         }
 
-        /* MAIN DASHBOARD SCREEN (Now un-nested from center flex block parameters) */
+        /* MAIN DASHBOARD SCREEN */
         #dashboard-screen {
             display: none;
             width: 100%;
@@ -146,7 +146,7 @@
             float: right;
         }
 
-        /* TRANSMISSION LOG FEED COMPONENTS */
+        /* TRANSMISSION LOG FEED */
         .transmission-box {
             display: flex;
             gap: 0.5rem;
@@ -217,7 +217,7 @@
 </head>
 <body>
 
-    <!-- GATE LOG-IN GATEWAY LAYER -->
+    <!-- GATE LOG-IN GATEWAY -->
     <div id="gate-screen">
         <div class="logo-mark"></div>
         <h1>Olihaven</h1>
@@ -232,10 +232,10 @@
         <div id="gate-message"></div>
     </div>
 
-    <!-- MAIN PLATFORM INTERFACE LAYER -->
+    <!-- MAIN PLATFORM INTERFACE -->
     <div id="dashboard-screen">
         <div class="dashboard-grid">
-            <!-- PILLAR 1: THE HEARTH WITH LIVE LOG PIPELINES -->
+            <!-- PILLAR 1: THE HEARTH -->
             <div class="bubble-panel">
                 <h2 class="pillar-title">The Hearth <span class="metric-badge" id="user-count">1,402 Links</span></h2>
                 <p style="font-size: 0.95rem; color: var(--text-dim);">Real-time sync networks connected. Core modules running safely over active sub-light infrastructure links.</p>
@@ -284,4 +284,7 @@
             feedback.style.display = "block";
 
             setTimeout(() => {
-                // Clear out body flex centering properties to make space for the grid rows smoothly
+                // Instantly reconfigure structural canvas alignments
+                document.body.style.display = 'block';
+                document.body.style.paddingTop = '3rem';
+                
