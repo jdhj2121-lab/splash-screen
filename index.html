@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -210,7 +212,7 @@
             <div class="database-section">
                 <p class="section-title">Saved Node Directories</p>
                 
-                <!-- Input Input Interface Matrix -->
+                <!-- Input Interface Matrix -->
                 <div class="phone-input-row">
                     <input type="text" id="contact-name" placeholder="Label/Name" style="flex: 1;">
                     <input type="tel" id="contact-number" placeholder="Phone Number" style="flex: 1.3;">
@@ -254,40 +256,31 @@
             }
         }
 
-        // Fetch contact matrix from local storage map configuration
-        function getContacts() {
-            const data = localStorage.getItem('olihaven_contacts');
-            return data ? JSON.parse(data) : [];
-        }
-
-        // Render nodes to UI view screen window list
-        function renderContacts() {
-            const listElement = document.getElementById('saved-numbers-list');
-            const contacts = getContacts();
-            listElement.innerHTML = '';
-
-            if (contacts.length === 0) {
-                listElement.innerHTML = '<div class="empty-state">No contacts stored in memory.</div>';
-                return;
+        // DATABASE STORAGE LOGIC PIPELINES
+                // Bind physical keyboard enter clicks for convenient submission speeds
+        window.addEventListener('DOMContentLoaded', () => {
+            const passcodeField = document.getElementById('passcode');
+            if (passcodeField) {
+                passcodeField.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        checkCode();
+                    }
+                });
+                passcodeField.focus();
             }
 
-            contacts.forEach((contact, index) => {
-                const li = document.createElement('li');
-                li.className = 'phone-item';
-                li.innerHTML = `
-                    <div class="phone-item-info">
-                        <span class="phone-item-name">${contact.name || 'Unnamed Node'}</span>
-                        <a href="tel:${contact.number}" class="phone-item-num">${contact.number}</a>
-                    </div>
-                    <button class="btn-delete" onclick="deleteContact(${index})">🗑️</button>
-                `;
-                listElement.appendChild(li);
-            });
-        }
-
-        // Save incoming number input string to device memory registry
-        function saveContact() {
-            const nameInput = document.getElementById('contact-name');
-            const numInput = document.getElementById('contact-number');
-            
-            const name = nameInput.value.trim();
+            // Also map enter key inside database row configuration fields
+            const numField = document.getElementById('contact-number');
+            if (numField) {
+                numField.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        saveContact();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
